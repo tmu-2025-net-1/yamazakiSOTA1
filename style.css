@@ -8,6 +8,94 @@ body {
   font-family: "Yu Mincho", serif; /* 和風っぽいフォント */
 }
 
+.video-background {
+  position: fixed;           /* 画面全体に固定 */
+  top: -85px;              /* 上から20pxの位置 */
+  right: 250px;
+  width: 100%;
+  height: 100%;
+  z-index: -1;               /* 背景として最背面に配置 */
+}
+
+.modal {            /* 初期状態では非表示 */
+  position: fixed;           /* 画面全体に固定 */
+  inset: 0;
+  display: flex;            /* 中央に配置するためのフレックスボックス */
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.445); /* 半透明の黒背景 */
+  z-index: 100;              /* 他の要素より前面に表示 */
+}
+
+.modal-content {
+  background: rgba(98, 192, 246, 0.228); /* 半透明の白背景 */
+  padding: 20px;            /* 内側の余白 */
+  border-radius: 10px;      /* 角を丸くする */
+  text-align: center;       /* 中央揃え */
+}
+
+.modal-content button {
+  padding: 10px 18px;
+  background: linear-gradient(135deg, #ff9933, #ff7700); /* 橙から濃い橙へ */
+  color: #fff8e7;
+  border: none;
+  border-radius: 6px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 0 8px rgba(255, 180, 100, 0.6),
+    0 0 16px rgba(255, 180, 100, 0.3);
+}
+
+.modal-content button:hover {
+  background: linear-gradient(135deg, #ffb347, #ff9933);
+  box-shadow:
+    0 0 12px rgba(255, 200, 120, 0.9),
+    0 0 20px rgba(255, 180, 100, 0.5);
+}
+
+.tmodal {
+  display: none;            /* 初期状態では非表示 */
+  position: fixed;           /* 画面全体に固定 */
+  inset: 0;
+  display: none;            /* 中央に配置するためのフレックスボックス */
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.445); /* 半透明の黒背景 */
+  z-index: 99;              /* 他の要素より前面に表示 */
+}
+
+.tmodal-content {
+  background: rgba(98, 192, 246, 0.228); /* 半透明の白背景 */
+  padding: 20px;            /* 内側の余白 */
+  border-radius: 10px;      /* 角を丸くする */
+  text-align: center;       /* 中央揃え */
+}
+
+.tmodal-content button {
+  padding: 10px 18px;
+  background: linear-gradient(135deg, #ff9933, #ff7700); /* 橙から濃い橙へ */
+  color: #fff8e7;
+  border: none;
+  border-radius: 6px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 0 8px rgba(255, 180, 100, 0.6),
+    0 0 16px rgba(255, 180, 100, 0.3);
+}
+
+.tmodal-content button:hover {
+  background: linear-gradient(135deg, #ffb347, #ff9933);
+  box-shadow:
+    0 0 12px rgba(255, 200, 120, 0.9),
+    0 0 20px rgba(255, 180, 100, 0.5);
+}
+
 /* 海の領域 */
 .sea {
   position: fixed;  /* 画面いっぱいに固定 */
@@ -21,42 +109,72 @@ body {
 
 /* 入力パネル */
 .input-panel {
-  position: fixed;            /* 画面下に固定する */
-  bottom: 20px;               /* 下から20pxの位置 */
-  left: 50%;                  /* 横位置を中央に */
-  transform: translateX(-50%);/* 真ん中にずらす */
-  background: rgba(0,0,0,0.5);/* 半透明の黒背景 */
-  padding: 10px 20px;         /* 内側の余白（上下10px、左右20px） */
-  border-radius: 8px;         /* 角を丸くする */
-  display: flex;              /* 横並びにする */
-  gap: 10px;                  /* 入力欄とボタンの間隔 */
-  z-index: 20;             /* 海より前面に表示 */
+  position: fixed;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15, 20, 40, 0.6); /* 夜の川面を思わせる濃紺の半透明 */
+  padding: 12px 24px;
+  border-radius: 12px; /* 丸めて柔らかさ */
+  display: flex;
+  gap: 12px;
+  z-index: 20;
+  box-shadow: 0 0 12px rgba(255, 180, 100, 0.2); /* 灯籠の光がにじむ感じ */
+  backdrop-filter: blur(4px); /* 背景を少しぼかして夜の空気感 */
 }
 
 /* 入力ボックス */
 .input-panel input[type="text"] {
-  padding: 8px;               /* 内側の余白 */
-  border: none;               /* 枠線を消す */
-  border-radius: 4px;         /* 角を丸める */
-  font-size: 16px;            /* 文字の大きさ */
-  width: 200px;               /* 横幅 */
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 18px;
+  width: 220px;
+  background: rgba(255, 255, 255, 0.1); /* 薄い白で川面に映る感じ */
+  color: #fff8e7; /* やや黄色味がかった白 */
+  box-shadow: 0 0 8px rgba(255, 200, 120, 0.2) inset; /* 灯籠の光のような柔らかいインナーグロー */
+  outline: none; /* フォーカス時の青枠を消す */
+}
+
+/* 入力ボックス フォーカス時 */
+.input-panel input[type="text"]:focus {
+  box-shadow: 0 0 12px rgba(255, 200, 120, 0.5) inset;
 }
 
 /* ボタン */
 .input-panel button {
-  padding: 8px 16px;          /* 内側の余白（上下8px・左右16px） */
-  background-color: #ff9933;  /* オレンジっぽい色 */
-  color: #fff;                /* 文字色を白 */
-  border: none;               /* 枠線を消す */
-  border-radius: 4px;         /* 角を丸める */
-  font-size: 16px;            /* 文字サイズ */
-  cursor: pointer;            /* マウスを乗せたときに指マーク */
-  transition: background 0.3s;/* ホバー時の色変更をなめらかに */
+  padding: 10px 18px;
+  background: linear-gradient(135deg, #ff9933, #ff7700); /* 橙から濃い橙へ */
+  color: #fff8e7;
+  border: none;
+  border-radius: 6px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 0 8px rgba(255, 180, 100, 0.6),
+    0 0 16px rgba(255, 180, 100, 0.3);
 }
 
 /* ボタンにマウスを乗せたとき */
 .input-panel button:hover {
-  background-color: #ff7700;  /* ちょっと濃いオレンジに */
+  background: linear-gradient(135deg, #ffb347, #ff9933);
+  box-shadow:
+    0 0 12px rgba(255, 200, 120, 0.9),
+    0 0 20px rgba(255, 180, 100, 0.5);
+}
+
+.tobutton {
+  position: fixed;            /* 画面の右下に固定 */
+  top: 20px;               /* 下から20pxの位置 */
+  right: 20px;                /* 右から20pxの位置 */
+  background: rgba(0, 0, 0, 0.361);/* 半透明の黒背景 */
+  padding: 10px 20px;         /* 内側の余白（上下10px、左右20px） */
+  border-radius: 8px;         /* 角を丸くする */
+  color: white;               /* 文字色を白に */
+  font-size: 16px;            /* フォントサイズ */
+  cursor: pointer;            /* マウスカーソルを指マークに */
 }
 
 /* 流れる文字のスタイル（後でJSで追加する要素用） */
@@ -64,6 +182,7 @@ body {
   position: absolute;         /* 海の中の好きな位置に置く */
   white-space: nowrap;        /* 改行しない */
   pointer-events: auto;       /* クリックを無視する */
+  cursor: pointer; 
   opacity: 0.8;               /* 少し透明感を出す */
   color:#ff9933;          /* 文字色をオレンジに */
   text-shadow:
@@ -72,6 +191,27 @@ body {
     0 0 24px rgba(255, 150, 50, 0.4);
 
   animation: glow 2.5s ease-in-out infinite; /* 後で説明するアニメ */
+}
+
+.floating-text::before {
+  content: "";
+  position: absolute;
+  top: 68%;        /* 文字の真下から */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150%;      /* 文字より少し広め */
+  height: 50px;     /* 縦幅は薄め */
+  background: radial-gradient(
+    ellipse at center,
+    rgba(251, 245, 238, 0.8) 0%,
+    rgba(255, 213, 169, 0.8) 60%,
+    rgba(255, 180, 100, 0.8) 100%
+  );
+  filter: blur(30px);      /* 光をふわっとさせる */
+  opacity: 0.6;
+  pointer-events: none;   /* マウス無効化 */
+  z-index: -1;            /* 本体の後ろに */
+  animation: glowbubble 2.5s ease-in-out infinite
 }
 
 .floating-text .reflection {
@@ -88,6 +228,7 @@ body {
     0 0 16px rgba(255, 180, 100, 0.4),
     0 0 24px rgba(255, 150, 50, 0.2);
     
+    animation: ripple 2s ease-in-out infinite; /* 波紋のアニメ */
 }
 
 .floating-text:hover{
@@ -103,6 +244,30 @@ body {
 /* このクラスがついている間だけ splash が動く */
 .floating-text.splash-effect {
   animation: splash 0.6s ease-out forwards;
+}
+
+.floating-text .hover-info {
+  position: absolute;         /* 浮かぶ文字の上に配置 */
+  bottom: 100%;               /* 浮かぶ文字の上に配置 */
+  left: 50%;                  /* 横位置を中央に */
+  transform: translateX(-50%);/* 真ん中にずらす */
+  background: rgba(255, 209, 109, 0.7); /* 半透明の黒背景 */
+  padding: 5px 10px;          /* 内側の余白 */
+  border-radius: 4px;         /* 角を丸くする */
+  color: white;               /* 文字色を白に */
+  font-size: 20px;            /* フォントサイズ */
+  animation: glowbubble 2.5s ease-in-out infinite,bubble-in 0.3s ease-out forwards; /* ホバー時のアニメ */
+  
+}
+.floating-text .hover-info::before {
+  content: '';                /* 擬似要素の内容は空 */
+  position: absolute;         /* 浮かぶ文字の上に配置 */
+  top: 100%;                  /* 浮かぶ文字の下に配置 */
+  left: 50%;                  /* 横位置を中央に */
+  transform: translateX(-50%);/* 真ん中にずらす */
+  border-width: 5px;          /* 三角形の大きさ */
+  border-style: solid;        /* 三角形の形状 */
+  border-color: rgba(255, 209, 109, 0.7) transparent transparent transparent; /* 上だけ色をつける */
 }
 
 
@@ -154,11 +319,50 @@ body {
   }
 }
 
+@keyframes glowbubble {
+  0% {
+    box-shadow:
+      0 0 8px  rgba(255, 180, 100, 0.6),
+      0 0 16px rgba(255, 180, 100, 0.4),
+      0 0 24px rgba(255, 150, 50, 0.2);
+  }
+  50% {
+    box-shadow:
+      0 0 12px rgba(255, 200, 120, 0.9),
+      0 0 24px rgba(255, 180, 100, 0.7),
+      0 0 36px rgba(255, 150, 50, 0.5);
+  }
+  100% {
+    box-shadow:
+      0 0 8px  rgba(255, 180, 100, 0.6),
+      0 0 16px rgba(255, 180, 100, 0.4),
+      0 0 24px rgba(255, 150, 50, 0.2);
+  }
+  
+}
+
 @keyframes splash {
   0%   { margin-top: 0; }
   30%  { margin-top: 10px; }  /* 下に沈む */
   60%  { margin-top: -5px; }  /* ちょっと跳ねる */
   100% { margin-top: 0; }
+}
+
+@keyframes bubble-in {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+@keyframes ripple {
+  0% { transform: scaleY(-1) skewX(0deg); }
+  50% { transform: scaleY(-1) skewX(3deg); }
+  100% { transform: scaleY(-1) skewX(0deg); }
 }
 
 

@@ -16,6 +16,35 @@
     <button id="flowButton">流す</button>
   </div>
 
+  <div class="video-background">
+  <video autoplay muted loop playsinline>
+    <source src="back.mp4" type="video/mp4">
+  </video>
+</div>
+
+  <div id="soundModal" class="modal">
+  <div class="modal-content">
+    <p>🔊 このサイトは音が出ます。よろしいですか？</p>
+    <button id="startSound">OK</button>
+  </div>
+</div>
+
+<div id = "tutorial" class="tmodal">
+    <div class="tmodal-content">
+        <p>ここは、ことばが灯籠となって静かに漂う海。</p>
+        <p>ことばをひとつ、海へ託してみましょう。</p>
+        <p>そっと灯籠に触れれば、ことばは淡く光り、夜の海面に想いがひろがります。</p>
+        <p>（ことばを入力して「流す」ボタンを押すと、海に「ことばの灯籠」が流れます。）</p>
+        <button id="closeTutorial">閉じる</button>
+    </div>
+</div>
+
+<button id="openTutorial" class="tobutton">?</button>
+
+
+  <audio id="bgm" src="bgm.mp3" preload="auto" loop></audio>
+  <audio id="water" src="water.mp3" preload="auto"></audio>
+
   
 <script src="matter.min.js"></script>
 

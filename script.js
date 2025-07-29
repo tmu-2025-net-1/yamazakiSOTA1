@@ -12,6 +12,18 @@ const sea = document.querySelector('.sea');           // 海のエリア
 const input = document.getElementById('messageInput'); // 入力ボックス
 const button = document.getElementById('flowButton');  // 流すボタン
 
+const bgm = document.getElementById('bgm');           // BGM
+const water = document.getElementById('water');       // 水の音
+
+const modal = document.getElementById('soundModal'); // 音確認モーダル
+const okb = document.getElementById('startSound'); // 音の確認ボタン
+
+const tmodal = document.getElementById('tutorial'); // ty－とリアるモーダル
+const tbutton = document.getElementById('closeTutorial'); // チュートリアル閉じるボタン
+const startButton = document.getElementById('openTutorial'); // チュートリアル開始ボタン
+
+
+
 function createLantern(text) {
   const startX = Math.random() * window.innerWidth * 0.8 + window.innerWidth * 0.1;
   const startY = 230; // 画面下付近
@@ -24,6 +36,18 @@ function createLantern(text) {
   ref.className = 'reflection';
   ref.textContent = text[0];
   el.appendChild(ref);
+
+  el.addEventListener('mouseenter', () => {
+    const info = document.createElement('div'); // ホバー時の情報表示
+    info.className = 'hover-info';
+    info.textContent = text; // 入力されたテキストを表示
+    el.appendChild(info);
+  });
+    el.addEventListener('mouseleave', () => {
+    const info = el.querySelector('.hover-info');
+    if (info) info.remove(); // ホバーを外したら情報を削除
+    });
+
 
   
 
@@ -61,10 +85,26 @@ function createLantern(text) {
 
   button.addEventListener('click', () => {
   const text = input.value.trim();
+  water.play(); // BGMを再生
   if (!text) return;
   createLantern(text);
   input.value = '';
 });
+
+okb.addEventListener('click', () => {
+  bgm.play(); // BGMを再生
+  modal.style.display = 'none'; // モーダルを閉じる
+  tmodal.style.display = 'flex'; // チュートリアルを表示
+});
+
+tbutton.addEventListener('click', () => {
+  tmodal.style.display = 'none'; // チュートリアルを閉じる
+});
+
+startButton.addEventListener('click', () => {
+  tmodal.style.display = 'flex'; // チュートリアルを開く
+});
+  
 
 
 
