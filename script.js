@@ -88,11 +88,21 @@ function createLantern(text) {
 }
 
 
-  button.addEventListener('click', () => {
+  button.addEventListener('click', async () => {
   const text = input.value.trim();
   water.play(); // BGMを再生
   if (!text) return;
   createLantern(text);
+
+  try {
+    await addDoc(collection(db, "tourouMessages"), {
+      text: text,
+      timestamp: serverTimestamp()
+    });
+  } catch (e) {
+    console.error("Firestore保存エラー:", e);
+  }
+
   input.value = '';
 });
 
