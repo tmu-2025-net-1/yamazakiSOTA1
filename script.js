@@ -48,6 +48,11 @@ function createLantern(text) {
     if (info) info.remove(); // ホバーを外したら情報を削除
     });
 
+  el.addEventListener('click', () => {
+    el.classList.add('clicked'); // クリック時のアニメーション
+    setTimeout(() => el.classList.remove('clicked'), 300); // アニメーション後にクラスを外す
+  });
+
 
   
 
@@ -141,7 +146,7 @@ Events.on(engine, 'afterUpdate', () => {
   }
 });
 
-
+window.createLantern = createLantern;
 
 
 
