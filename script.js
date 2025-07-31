@@ -137,7 +137,7 @@ function createLantern(text) {
   const text = input.value.trim();
   water.play(); // BGMを再生
   if (!text) return;
-  createLantern(text);
+  
 
   try {
     await addDoc(collection(db, "tourouMessages"), {
