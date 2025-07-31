@@ -21,7 +21,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebas
   const analytics = getAnalytics(app);
   const db = getFirestore(app);
 
-  // 🔽 ここを追加！
+  
   onSnapshot(collection(db, "tourouMessages"), (snapshot) => {
     snapshot.docChanges().forEach((change) => {
       if (change.type === "added") {
@@ -32,12 +32,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebas
       }
     });
   });
-
-
-
-
-
-
 
 
 
