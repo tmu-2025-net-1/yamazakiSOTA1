@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp, Timestamp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js";
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
@@ -23,10 +23,22 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebas
 
   
   onSnapshot(collection(db, "tourouMessages"), (snapshot) => {
-    snapshot.docChanges().forEach((change) => {
-      if (change.type === "added") {
-        const data = change.doc.data();
-        if (data.text) {
+    const now = Date.now();
+
+    snapshot.docs.forEach((doc) => {
+    const data = doc.data();
+
+    if (!data.timestamp) {
+      console.log("スキップ: timestamp が未定義", data);
+      return;
+    }
+
+    const ts = data.timestamp.toDate();  // Firestore Timestamp → JS Date
+    const isRecent = now - ts.getTime() < 120000; 
+
+    if (data.text && isRecent) {
+      // すでに表示済みならスキップする（重複表示防止）
+      if (!document.querySelector(`[data-id="${doc.id}"]`)) {
           window.createLantern(data.text); // ← グローバル関数として呼び出し
         }
       }
@@ -123,7 +135,7 @@ function createLantern(text) {
   setTimeout(() => {
     World.remove(world, body);
     el.remove();
-  }, 120000);
+  }, 300000);
 }
 
 
@@ -136,7 +148,7 @@ function createLantern(text) {
   try {
     await addDoc(collection(db, "tourouMessages"), {
       text: text,
-      timestamp: serverTimestamp()
+      timestamp: serverTimestamp(),
     });
   } catch (e) {
     console.error("Firestore保存エラー:", e);
