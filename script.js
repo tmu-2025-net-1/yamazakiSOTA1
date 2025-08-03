@@ -25,25 +25,31 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebas
   onSnapshot(collection(db, "tourouMessages"), (snapshot) => {
     const now = Date.now();
 
-    snapshot.docs.forEach((doc) => {
-    const data = doc.data();
+    snapshot.docChanges().forEach((change) => {
+    if (change.type === "added") {
+      const doc = change.doc;
+      const data = doc.data();
 
-    if (!data.timestamp) {
-      console.log("スキップ: timestamp が未定義", data);
-      return;
-    }
+      if (!data.timestamp) {
+        console.log("スキップ: timestamp が未定義", data);
+        return;
+      }
 
-    const ts = data.timestamp.toDate();  // Firestore Timestamp → JS Date
-    const isRecent = now - ts.getTime() < 120000; 
+      const ts = data.timestamp.toDate();  // Firestore Timestamp → JS Date
+      const isRecent = now - ts.getTime() < 120000; // 2分以内
 
-    if (data.text && isRecent) {
-      // すでに表示済みならスキップする（重複表示防止）
-      if (!document.querySelector(`[data-id="${doc.id}"]`)) {
-          window.createLantern(data.text); // ← グローバル関数として呼び出し
+      if (data.text && isRecent) {
+        // すでに表示済みならスキップ（data-id で確認）
+        if (!document.querySelector(`[data-id="${doc.id}"]`)) {
+          const el = window.createLantern(data.text);
+          if (el) {
+            el.setAttribute("data-id", doc.id);
+          }
         }
       }
-    });
+    }
   });
+});
 
 
 
@@ -136,6 +142,8 @@ function createLantern(text) {
     World.remove(world, body);
     el.remove();
   }, 300000);
+
+  return el;
 }
 
 
@@ -143,6 +151,11 @@ function createLantern(text) {
   const text = input.value.trim();
   water.play(); // BGMを再生
   if (!text) return;
+
+   const el = window.createLantern(text);
+  if (el) {
+    el.setAttribute("data-local", "true"); // 重複防止の識別用属性
+  }
   
 
   try {
